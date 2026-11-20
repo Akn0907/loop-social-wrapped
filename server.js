@@ -5,18 +5,32 @@ const path = require('node:path');
 const root = __dirname;
 loadEnv(path.join(root, '.env'));
 const port = Number(process.env.PORT || 4173);
+const host = process.env.HOST || '127.0.0.1';
 const files = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/index.html', ['index.html', 'text/html; charset=utf-8']],
   ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
   ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
-  ['/config.js', ['config.js', 'text/javascript; charset=utf-8']],
 ]);
 
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || '127.0.0.1'}`);
   if (req.method === 'POST' && url.pathname === '/api/analyze') {
     handleAnalysis(req, res);
+    return;
+  }
+  if (req.method === 'GET' && url.pathname === '/config.js') {
+    const publicConfig = {
+      xClientId: process.env.X_CLIENT_ID || '',
+      spotifyClientId: process.env.SPOTIFY_CLIENT_ID || '',
+    };
+    res.writeHead(200, {
+      'content-type': 'text/javascript; charset=utf-8',
+      'cache-control': 'no-store',
+      'x-content-type-options': 'nosniff',
+      'referrer-policy': 'strict-origin-when-cross-origin',
+    });
+    res.end(`window.LOOP_CONFIG = ${JSON.stringify(publicConfig)};`);
     return;
   }
   const entry = files.get(url.pathname);
@@ -90,6 +104,6 @@ async function handleAnalysis(req, res) {
   });
 }
 
-server.listen(port, '127.0.0.1', () => {
-  console.log(`Loop hazır: http://127.0.0.1:${port}`);
+server.listen(port, host, () => {
+  console.log(`Loop hazır: http://${host}:${port}`);
 });
