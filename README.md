@@ -1,4 +1,4 @@
-# Loop
+# Letıthappenakin
 
 Mavi-siyah görsel tasarıma sahip, X Wrapped / etkileşim paneli prototipi.
 
