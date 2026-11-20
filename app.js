@@ -399,8 +399,8 @@ document.querySelector('#next-slide').addEventListener('click', () => renderSlid
 document.querySelector('#open-wrapped').addEventListener('click', () => { document.querySelector('#wrapped').scrollIntoView({ behavior: 'smooth', block: 'center' }); renderSlide(0); });
 document.querySelector('#view-all-wrapped').addEventListener('click', openAiModal);
 document.querySelector('#share-summary').addEventListener('click', async () => {
-  const text = `Loop Kasım Wrapped: ${slides[currentSlide].title.replace('<br>', ' ')}`;
-  try { if (navigator.share) await navigator.share({ title: 'Loop Wrapped', text }); else if (navigator.clipboard) { await navigator.clipboard.writeText(text); toast('Özet metni panoya kopyalandı.'); } else toast('Paylaşım özelliği bu tarayıcıda kullanılamıyor.'); }
+  const text = `Letıthappenakin Kasım Wrapped: ${slides[currentSlide].title.replace('<br>', ' ')}`;
+  try { if (navigator.share) await navigator.share({ title: 'Letıthappenakin Wrapped', text }); else if (navigator.clipboard) { await navigator.clipboard.writeText(text); toast('Özet metni panoya kopyalandı.'); } else toast('Paylaşım özelliği bu tarayıcıda kullanılamıyor.'); }
   catch (error) { if (error.name !== 'AbortError') toast('Paylaşım başlatılamadı.'); }
 });
 document.querySelector('#refresh-match').addEventListener('click', event => {
